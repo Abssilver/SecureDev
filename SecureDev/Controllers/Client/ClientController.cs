@@ -1,7 +1,6 @@
-using DAL.Abstractions;
-using DAL.Abstractions.Entities;
+using BusinessLogic.Abstractions;
+using BusinessLogic.Abstractions.Dto;
 using Microsoft.AspNetCore.Mvc;
-using Validation.Abstractions;
 
 namespace SecureDev.Controllers.Client;
 
@@ -9,39 +8,24 @@ namespace SecureDev.Controllers.Client;
 [ApiController]
 public class ClientController : ControllerBase
 {
-    private readonly IClientRepository _repository;
-    private readonly ILogger<ClientController> _logger;
-    private readonly IBusinessLogicOperationFailureFactory _failureFactory;
+    private readonly IClientService _service;
 
-    public ClientController(
-        IClientRepository repository,
-        ILogger<ClientController> logger,
-        IBusinessLogicOperationFailureFactory failureFactory
-        )
+    public ClientController(IClientService service)
     {
-        _repository = repository;
-        _logger = logger;
-        _failureFactory = failureFactory;
+        _service = service;
     }
 
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateClientResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateClientRequest request)
     {
-        try
+        var result = await _service.CreateAsync(new ClientDto
         {
-            var clientId = await _repository.CreateAsync(new ClientEntity
-            {
-                FirstName = request.FirstName,
-                Surname = request.Surname,
-                Patronymic = request.Patronymic
-            });
-            return Ok(new CreateClientResponse(clientId, ArraySegment<IOperationFailure>.Empty));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Create client error");
-            return Ok(new CreateClientResponse(-1, _failureFactory.CreateClientCreationFailure()));
-        }
+            FirstName = request.FirstName,
+            Surname = request.Surname,
+            Patronymic = request.Patronymic,
+        });
+        
+        return Ok(new CreateClientResponse(result.Result, result.Failures));
     }
 }

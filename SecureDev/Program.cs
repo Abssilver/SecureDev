@@ -1,3 +1,4 @@
+using BusinessLogic.Implementation;
 using DAL.Implementation;
 using Microsoft.AspNetCore.HttpLogging;
 using NLog.Web;
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 
 ConfigureLogging(builder);
 
+builder.Services.RegisterBusinessLogic();
 builder.Services.RegisterDataLayer(builder.Configuration);
 builder.Services.RegisterValidation();
 

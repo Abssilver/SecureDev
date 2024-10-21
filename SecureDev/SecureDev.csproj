@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BusinessLogic.Implementation\BusinessLogic.Implementation.csproj" />
       <ProjectReference Include="..\DAL.Implementation\DAL.Implementation.csproj" />
       <ProjectReference Include="..\Validation.Implementation\Validation.Implementation.csproj" />
     </ItemGroup>
