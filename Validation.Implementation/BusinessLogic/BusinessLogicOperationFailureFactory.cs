@@ -1,6 +1,5 @@
 using BusinessLogic.Abstractions.Dto;
 using Validation.Abstractions;
-using Validation.Implementation.ErrorCodes;
 
 namespace Validation.Implementation.BusinessLogic;
 
@@ -11,8 +10,8 @@ public class BusinessLogicOperationFailureFactory: IBusinessLogicOperationFailur
         return new OperationFailure
         {
             PropertyName = nameof(CardDto.CardNumber),
-            Description = BusinessLogicErrorCodes.CardCreationFailureDescription,
-            ErrorCode = BusinessLogicErrorCodes.CardCreationFailure,
+            Description = ErrorCodes.ErrorCodeDescription[ErrorCodes.CardCreationFailure],
+            ErrorCode = ErrorCodes.CardCreationFailure,
         };
     }
 
@@ -21,8 +20,8 @@ public class BusinessLogicOperationFailureFactory: IBusinessLogicOperationFailur
         return new OperationFailure
         {
             PropertyName = nameof(ClientDto.Id),
-            Description = BusinessLogicErrorCodes.CardsGettingFailureDescription,
-            ErrorCode = BusinessLogicErrorCodes.CardsGettingFailure,
+            Description = ErrorCodes.ErrorCodeDescription[ErrorCodes.CardsGettingFailure],
+            ErrorCode = ErrorCodes.CardsGettingFailure,
         };
     }
 
@@ -31,8 +30,8 @@ public class BusinessLogicOperationFailureFactory: IBusinessLogicOperationFailur
         return new OperationFailure
         {
             PropertyName = nameof(ClientDto.Id),
-            Description = BusinessLogicErrorCodes.ClientCreationFailureDescription,
-            ErrorCode = BusinessLogicErrorCodes.ClientCreationFailure,
+            Description = ErrorCodes.ErrorCodeDescription[ErrorCodes.ClientCreationFailure],
+            ErrorCode = ErrorCodes.ClientCreationFailure,
         };
     }
 }

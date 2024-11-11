@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-    </PropertyGroup>
+      <UserSecretsId>00969cf4-c78c-41ba-9ee9-3e97e8f03139</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
@@ -17,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Authentication.Implementation\Authentication.Implementation.csproj" />
       <ProjectReference Include="..\BusinessLogic.Implementation\BusinessLogic.Implementation.csproj" />
       <ProjectReference Include="..\DAL.Implementation\DAL.Implementation.csproj" />
       <ProjectReference Include="..\Validation.Implementation\Validation.Implementation.csproj" />
@@ -24,6 +26,9 @@
 
     <ItemGroup>
         <Content Include="..\DAL.Implementation\database.settings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="..\Authentication.Implementation\authentication.settings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>

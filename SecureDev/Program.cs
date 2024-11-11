@@ -1,3 +1,4 @@
+using Authentication.Implementation;
 using BusinessLogic.Implementation;
 using DAL.Implementation;
 using Microsoft.AspNetCore.HttpLogging;
@@ -18,6 +19,7 @@ ConfigureLogging(builder);
 builder.Services.RegisterBusinessLogic();
 builder.Services.RegisterDataLayer(builder.Configuration);
 builder.Services.RegisterValidation();
+builder.Services.RegisterAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
