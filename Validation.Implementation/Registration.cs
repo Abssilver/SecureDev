@@ -9,8 +9,8 @@ public static class Registration
 {
     public static IServiceCollection RegisterValidation(this IServiceCollection services)
     {
-        services.AddScoped<IBusinessLogicOperationFailureFactory, BusinessLogicOperationFailureFactory>();
-        services.AddScoped<IAuthOperationFailureFactory, AuthOperationFailureFactory>();
+        services.AddSingleton<IBusinessLogicOperationFailureFactory, BusinessLogicOperationFailureFactory>();
+        services.AddSingleton<IAuthOperationFailureFactory, AuthOperationFailureFactory>();
         return services;
     }
 }
