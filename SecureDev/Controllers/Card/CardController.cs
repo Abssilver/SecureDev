@@ -1,10 +1,12 @@
 using System.Globalization;
 using BusinessLogic.Abstractions;
 using BusinessLogic.Abstractions.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SecureDev.Controllers.Card;
 
+[Authorize]
 [Route("api/card")]
 [ApiController]
 public class CardController : ControllerBase

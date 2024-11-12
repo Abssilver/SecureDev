@@ -1,9 +1,11 @@
 using BusinessLogic.Abstractions;
 using BusinessLogic.Abstractions.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SecureDev.Controllers.Client;
 
+[Authorize]
 [Route("api/client")]
 [ApiController]
 public class ClientController : ControllerBase
