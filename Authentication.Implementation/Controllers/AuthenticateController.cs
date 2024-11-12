@@ -3,6 +3,7 @@ using Authentication.Abstractions.Dto;
 using Authentication.Abstractions.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -39,6 +40,7 @@ public class AuthenticateController : ControllerBase
     [AllowAnonymous]
     [HttpPost]
     [Route("authenticate")]
+    [ProducesResponseType(typeof(AuthResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Login([FromBody] AuthRequest request)
     {
         var result = await _service.Authenticate(_mapper.Map<AuthRequestDto>(request));
@@ -46,12 +48,13 @@ public class AuthenticateController : ControllerBase
             Response.Headers.Add("X-Session-Token", result.Result?.SessionInfo.Token);
         
         return result.IsSucceed
-            ? Ok(result)
+            ? Ok(new AuthResponse(result.Result, result.Failures))
             : Unauthorized(result);
     }
 
     [HttpGet]
     [Route("session")]
+    [ProducesResponseType(typeof(GetSessionInfoResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetSessionInfo()
     {
         var authorization = Request.Headers[HeaderNames.Authorization];
@@ -64,7 +67,7 @@ public class AuthenticateController : ControllerBase
 
         var result = await _service.GetSessionInfo(sessionToken);
         return result.IsSucceed
-            ? Ok(result)
+            ? Ok(new GetSessionInfoResponse(result.Result ?? SessionInfoDto.Empty, result.Failures))
             : Unauthorized(result);
     }
 }
