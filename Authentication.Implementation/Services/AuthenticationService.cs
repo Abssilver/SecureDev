@@ -92,7 +92,7 @@ public class AuthenticationService: IAuthenticationService
         }, ArraySegment<IOperationFailure>.Empty);
     }
 
-    public async Task<IOperationResult<int>> CreateUser(AccountDto dto)
+    public async Task<IOperationResult<int>> CreateUser(CreateAccountDto dto)
     {
         await using var scope = _scopeFactory.CreateAsyncScope();
         var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
@@ -101,8 +101,17 @@ public class AuthenticationService: IAuthenticationService
         if (user != AccountEntity.Empty)
             return new OperationResult<int>(-1, _failureFactory.CreateUserIsAlreadyExistFailure());
        
-        var mapper = _serviceProvider.GetRequiredService<IMapper>();
-        var entity = mapper.Map<AccountEntity>(dto);
+        var passwordService = scope.ServiceProvider.GetRequiredService<IPasswordSecurityService>();
+        var salt = passwordService.CreateSalt();
+        var entity = new AccountEntity
+        {
+            Email = dto.Email,
+            PasswordSalt = salt,
+            PasswordHash = passwordService.GetPasswordHash(dto.Password, salt),
+            FirstName = dto.FirstName,
+            Surname = dto.Surname,
+            Patronymic = dto.Patronymic,
+        };
         var userId = await accountRepository.CreateAsync(entity);
         return new OperationResult<int>(userId, ArraySegment<IOperationFailure>.Empty);
     }

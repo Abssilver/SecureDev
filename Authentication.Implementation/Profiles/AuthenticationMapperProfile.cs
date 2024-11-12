@@ -8,6 +8,6 @@ public class AuthenticationMapperProfile: Profile
 {
     public AuthenticationMapperProfile()
     {
-        CreateMap<AccountEntity, AccountDto>().ReverseMap();
+        CreateMap<AccountEntity, AccountDto>();
     }
 }
