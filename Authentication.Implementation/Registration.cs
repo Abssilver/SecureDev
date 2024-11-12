@@ -27,6 +27,7 @@ public static class Registration
         services.AddMemoryCache();
         services.AddAutoMapper(conf => conf.AddProfile(new AuthenticationMapperProfile()));
         
+        services.AddCors();
         services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

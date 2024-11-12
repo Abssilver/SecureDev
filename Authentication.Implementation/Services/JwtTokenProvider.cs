@@ -32,7 +32,7 @@ public class JwtTokenProvider: ITokenProvider
             Expires = DateTime.UtcNow.AddSeconds(_jwtConfig.AccessExpirationTimeInSeconds),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), 
-                SecurityAlgorithms.HmacSha256Signature)
+                SecurityAlgorithms.HmacSha512Signature)
         };
         
         
