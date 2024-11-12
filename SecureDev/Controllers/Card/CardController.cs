@@ -1,10 +1,12 @@
 using System.Globalization;
 using BusinessLogic.Abstractions;
 using BusinessLogic.Abstractions.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SecureDev.Controllers.Card;
 
+[Authorize]
 [Route("api/card")]
 [ApiController]
 public class CardController : ControllerBase
@@ -17,7 +19,7 @@ public class CardController : ControllerBase
     }
 
     [HttpPost("create")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CreateCardResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateCardRequest request)
     {
         var result = await _service.CreateAsync(new CardDto

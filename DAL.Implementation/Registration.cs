@@ -18,6 +18,8 @@ public static class Registration
         
         services.AddScoped<ICardRepository, CardRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IAccountRepository, AccountRepository>();
+        services.AddScoped<IAccountSessionRepository, AccountSessionRepository>();
         return services;
     }
 }

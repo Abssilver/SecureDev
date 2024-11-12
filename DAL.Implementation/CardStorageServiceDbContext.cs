@@ -7,6 +7,8 @@ public class CardStorageServiceDbContext : DbContext
 {
     public virtual DbSet<ClientEntity> Clients { get; set; }
     public virtual DbSet<CardEntity> Cards { get; set; }
+    public virtual DbSet<AccountEntity> Accounts { get; set; }
+    public virtual DbSet<AccountSessionEntity> AccountSessions { get; set; }
 
     public CardStorageServiceDbContext(DbContextOptions options) : base(options)
     {
