@@ -17,7 +17,7 @@ public class CardController : ControllerBase
     }
 
     [HttpPost("create")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CreateCardResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateCardRequest request)
     {
         var result = await _service.CreateAsync(new CardDto
