@@ -22,6 +22,6 @@ public static class ErrorCodes
         { AuthenticationNotFoundUserFailure, "User is not exist" },
         { AuthenticationInvalidPasswordFailure, "Provided password is invalid" },
         { CreateUserFailure, "User with the same username is already exist" },
-        { InvalidSessionTokenFailure, "Provided session token is expired" }
+        { InvalidSessionTokenFailure, "Provided session token is invalid" }
     };
 }

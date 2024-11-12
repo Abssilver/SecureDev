@@ -107,14 +107,37 @@ public class AuthenticationService: IAuthenticationService
         return new OperationResult<int>(userId, ArraySegment<IOperationFailure>.Empty);
     }
 
-    public IOperationResult<SessionInfoDto> GetSessionInfo(string sessionToken)
+    public async Task<IOperationResult<SessionInfoDto>> GetSessionInfo(string sessionToken)
     {
-        if (_memoryCache.TryGetValue(sessionToken, out var sessionInfo))
-            return new OperationResult<SessionInfoDto>(sessionInfo as SessionInfoDto,
-                ArraySegment<IOperationFailure>.Empty);
+        SessionInfoDto sessionInfo;
+        if (_memoryCache.TryGetValue(sessionToken, out var cached))
+        {
+            if (cached != null)
+            {
+                sessionInfo = (SessionInfoDto)cached;
+                return new OperationResult<SessionInfoDto>(sessionInfo, ArraySegment<IOperationFailure>.Empty);
+            }
+        }
+        
+        await using var scope = _scopeFactory.CreateAsyncScope();
+        var sessionRepository = scope.ServiceProvider.GetRequiredService<IAccountSessionRepository>();
+        var session = await sessionRepository.GetByTokenAsync(sessionToken);
+        if (session == AccountSessionEntity.Empty)
+            return new OperationResult<SessionInfoDto>(SessionInfoDto.Empty,
+                _failureFactory.CreateInvalidSessionTokenFailure());
 
-        return new OperationResult<SessionInfoDto>(SessionInfoDto.Empty,
-            _failureFactory.CreateInvalidSessionTokenFailure());
+        var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
+        var account = await accountRepository.GetByIdAsync(session.AccountId);
+        var mapper = _serviceProvider.GetRequiredService<IMapper>();
+        var accountDto = mapper.Map<AccountDto>(account);
+        sessionInfo = new SessionInfoDto
+        {
+            Id = session.Id,
+            Token = session.SessionToken,
+            Account = accountDto,
+        };
+        await CacheSessionInfo(sessionInfo);
+        return new OperationResult<SessionInfoDto>(sessionInfo, ArraySegment<IOperationFailure>.Empty);
     }
 
     private async Task CacheSessionInfo(SessionInfoDto session)

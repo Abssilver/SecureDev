@@ -15,12 +15,15 @@ public class AccountSessionRepository : IAccountSessionRepository
 
     public async Task<IEnumerable<AccountSessionEntity>> GetAllAsync()
     {
-        return await _context.AccountSessions.ToArrayAsync();
+        return await _context.AccountSessions
+            .AsNoTracking()
+            .ToArrayAsync();
     }
     
     public async Task<AccountSessionEntity> GetByIdAsync(int id)
     {
         var result = await _context.AccountSessions
+            .AsNoTracking()
             .FirstOrDefaultAsync(entity => entity.Id == id) ?? AccountSessionEntity.Empty;
         return result;
     }
@@ -49,6 +52,14 @@ public class AccountSessionRepository : IAccountSessionRepository
         var entity = new AccountSessionEntity { Id = id };
         _context.AccountSessions.Remove(entity);
         var result = await _context.SaveChangesAsync();
+        return result;
+    }
+
+    public async Task<AccountSessionEntity> GetByTokenAsync(string token)
+    {
+        var result = await _context.AccountSessions
+            .AsNoTracking()
+            .FirstOrDefaultAsync(entity => entity.SessionToken == token) ?? AccountSessionEntity.Empty;
         return result;
     }
 }
