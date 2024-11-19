@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication.Implementati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoUtils", "CryptoUtils\CryptoUtils.csproj", "{6FB22985-A975-4A84-8C2C-32EAE9C9ED7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateUtils", "CertificateUtils\CertificateUtils.csproj", "{9666EFB8-D803-42BD-AC9B-1A82C1EADC87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{6FB22985-A975-4A84-8C2C-32EAE9C9ED7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FB22985-A975-4A84-8C2C-32EAE9C9ED7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FB22985-A975-4A84-8C2C-32EAE9C9ED7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9666EFB8-D803-42BD-AC9B-1A82C1EADC87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9666EFB8-D803-42BD-AC9B-1A82C1EADC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9666EFB8-D803-42BD-AC9B-1A82C1EADC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9666EFB8-D803-42BD-AC9B-1A82C1EADC87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
