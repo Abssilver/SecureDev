@@ -5,16 +5,6 @@ namespace Validation.Implementation.Authentication;
 
 public class AuthOperationFailureFactory: IAuthOperationFailureFactory
 {
-    public IOperationFailure CreateAuthenticationInvalidLoginFailure()
-    {
-        return new OperationFailure
-        {
-            PropertyName = nameof(AuthRequestDto.Login),
-            Description = ErrorCodes.ErrorCodeDescription[ErrorCodes.AuthenticationInvalidLoginFailure],
-            ErrorCode = ErrorCodes.AuthenticationInvalidLoginFailure,
-        };
-    }
-    
     public IOperationFailure CreateAuthenticationNotFoundUserFailure()
     {
         return new OperationFailure

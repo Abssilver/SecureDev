@@ -123,6 +123,10 @@ public class AuthenticationService: IAuthenticationService
 
     public async Task<IOperationResult<SessionInfoDto>> GetSessionInfo(string sessionToken)
     {
+        if (string.IsNullOrEmpty(sessionToken))
+            return new OperationResult<SessionInfoDto>(SessionInfoDto.Empty,
+                _failureFactory.CreateInvalidSessionTokenFailure());
+        
         SessionInfoDto sessionInfo;
         if (_memoryCache.TryGetValue(sessionToken, out var cached))
         {
