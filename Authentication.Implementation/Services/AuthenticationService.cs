@@ -35,16 +35,17 @@ public class AuthenticationService: IAuthenticationService
     
     public async Task<IOperationResult<AuthResponseDto>> Authenticate(AuthRequestDto authRequest)
     {
-        if (string.IsNullOrWhiteSpace(authRequest.Login))
+        await using var scope = _scopeFactory.CreateAsyncScope();
+        var authRequestValidator = scope.ServiceProvider.GetRequiredService<IValidationService<AuthRequestDto>>();
+        var failures = authRequestValidator.ValidateEntity(authRequest);
+        if (failures.Count != 0)
             return new OperationResult<AuthResponseDto>(new AuthResponseDto
             {
-                Status = AuthenticationStatus.InvalidUserName,
+                Status = AuthenticationStatus.InvalidUserData,
                 SessionInfo = SessionInfoDto.Empty,
-            }, _failureFactory.CreateAuthenticationInvalidLoginFailure());
-
-        await using var scope = _scopeFactory.CreateAsyncScope();
+            }, failures);
+        
         var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
-
         var account = await accountRepository.GetByEmail(authRequest.Login);
         if (account == AccountEntity.Empty)
         {
