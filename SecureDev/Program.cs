@@ -3,6 +3,7 @@ using BusinessLogic.Implementation;
 using DAL.Implementation;
 using Microsoft.AspNetCore.HttpLogging;
 using NLog.Web;
+using SecureDev.MapSettings;
 using Validation.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.AuthenticationOptions());
 
 ConfigureLogging(builder);
+ConfigureMapping(builder.Services);
 
 builder.Services.RegisterBusinessLogic();
 builder.Services.RegisterDataLayer(builder.Configuration);
@@ -59,4 +61,9 @@ void ConfigureLogging(WebApplicationBuilder appBuilder)
         logging.RequestHeaders.Add("X-Real-IP");
         logging.RequestHeaders.Add("X-Forwarded-For");
     });
+}
+
+void ConfigureMapping(IServiceCollection services)
+{
+    services.AddAutoMapper(c => c.AddProfile(new ControllerParamsMapper()));
 }

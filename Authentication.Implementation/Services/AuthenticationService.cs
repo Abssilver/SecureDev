@@ -35,16 +35,17 @@ public class AuthenticationService: IAuthenticationService
     
     public async Task<IOperationResult<AuthResponseDto>> Authenticate(AuthRequestDto authRequest)
     {
-        if (string.IsNullOrWhiteSpace(authRequest.Login))
+        await using var scope = _scopeFactory.CreateAsyncScope();
+        var authRequestValidator = scope.ServiceProvider.GetRequiredService<IValidationService<AuthRequestDto>>();
+        var failures = authRequestValidator.ValidateEntity(authRequest);
+        if (failures.Count != 0)
             return new OperationResult<AuthResponseDto>(new AuthResponseDto
             {
-                Status = AuthenticationStatus.InvalidUserName,
+                Status = AuthenticationStatus.InvalidUserData,
                 SessionInfo = SessionInfoDto.Empty,
-            }, _failureFactory.CreateAuthenticationInvalidLoginFailure());
-
-        await using var scope = _scopeFactory.CreateAsyncScope();
+            }, failures);
+        
         var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
-
         var account = await accountRepository.GetByEmail(authRequest.Login);
         if (account == AccountEntity.Empty)
         {
@@ -95,8 +96,12 @@ public class AuthenticationService: IAuthenticationService
     public async Task<IOperationResult<int>> CreateUser(CreateAccountDto dto)
     {
         await using var scope = _scopeFactory.CreateAsyncScope();
+        var validator = scope.ServiceProvider.GetRequiredService<IValidationService<CreateAccountDto>>();
+        var failures = validator.ValidateEntity(dto);
+        if (failures.Count != 0)
+            return new OperationResult<int>(-1, failures);
+        
         var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
-
         var user = await accountRepository.GetByEmail(dto.Email);
         if (user != AccountEntity.Empty)
             return new OperationResult<int>(-1, _failureFactory.CreateUserIsAlreadyExistFailure());
@@ -118,6 +123,10 @@ public class AuthenticationService: IAuthenticationService
 
     public async Task<IOperationResult<SessionInfoDto>> GetSessionInfo(string sessionToken)
     {
+        if (string.IsNullOrEmpty(sessionToken))
+            return new OperationResult<SessionInfoDto>(SessionInfoDto.Empty,
+                _failureFactory.CreateInvalidSessionTokenFailure());
+        
         SessionInfoDto sessionInfo;
         if (_memoryCache.TryGetValue(sessionToken, out var cached))
         {
