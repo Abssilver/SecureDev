@@ -2,11 +2,10 @@ namespace Validation.Implementation;
 
 public static class ErrorCodes
 {
-    public const string CardCreationFailure = "BL-1";
-    public const string CardsGettingFailure = "BL-2";
-    public const string ClientCreationFailure = "BL-3";
-    public const string CardCreationCardNumberFailure = "BL-4";
-    public const string CardCreationExpDateFailure = "BL-5";
+    public const string CardsGettingFailure = "BL-1";
+    public const string ClientCreationFailure = "BL-2";
+    public const string CardCreationCardNumberFailure = "BL-3";
+    public const string CardCreationExpDateFailure = "BL-4";
 
     public const string AuthenticationInvalidLoginFailure = "AUTH-1";
     public const string AuthenticationNotFoundUserFailure = "AUTH-2";
@@ -22,7 +21,6 @@ public static class ErrorCodes
 
     public static readonly Dictionary<string, string> ErrorCodeDescription = new()
     {
-        { CardCreationFailure, "Card creation failure" },
         { CardsGettingFailure, "Get cards failure" },
         { ClientCreationFailure, "Client creation failure" },
         { CardCreationCardNumberFailure, "Card number data is invalid" },
