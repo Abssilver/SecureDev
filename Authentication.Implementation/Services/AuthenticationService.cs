@@ -96,8 +96,12 @@ public class AuthenticationService: IAuthenticationService
     public async Task<IOperationResult<int>> CreateUser(CreateAccountDto dto)
     {
         await using var scope = _scopeFactory.CreateAsyncScope();
+        var validator = scope.ServiceProvider.GetRequiredService<IValidationService<CreateAccountDto>>();
+        var failures = validator.ValidateEntity(dto);
+        if (failures.Count != 0)
+            return new OperationResult<int>(-1, failures);
+        
         var accountRepository = scope.ServiceProvider.GetRequiredService<IAccountRepository>();
-
         var user = await accountRepository.GetByEmail(dto.Email);
         if (user != AccountEntity.Empty)
             return new OperationResult<int>(-1, _failureFactory.CreateUserIsAlreadyExistFailure());
