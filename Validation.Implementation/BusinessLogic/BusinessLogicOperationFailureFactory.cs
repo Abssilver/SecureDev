@@ -14,14 +14,4 @@ public class BusinessLogicOperationFailureFactory: IBusinessLogicOperationFailur
             ErrorCode = ErrorCodes.CardsGettingFailure,
         };
     }
-
-    public IOperationFailure CreateClientCreationFailure()
-    {
-        return new OperationFailure
-        {
-            PropertyName = nameof(ClientDto.Id),
-            Description = ErrorCodes.ErrorCodeDescription[ErrorCodes.ClientCreationFailure],
-            ErrorCode = ErrorCodes.ClientCreationFailure,
-        };
-    }
 }

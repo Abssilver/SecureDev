@@ -17,6 +17,7 @@ public static class Registration
         services.AddTransient<IValidationService<AuthRequestDto>, AuthRequestValidation>();
         services.AddTransient<IValidationService<CreateAccountDto>, CreateAccountValidation>();
         services.AddTransient<IValidationService<CardDto>, CardServiceValidation>();
+        services.AddTransient<IValidationService<ClientDto>, ClientServiceValidation>();
         return services;
     }
 }
