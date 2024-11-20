@@ -1,3 +1,4 @@
+using Authentication.Abstractions.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using Validation.Abstractions;
 using Validation.Implementation.Authentication;
@@ -11,6 +12,7 @@ public static class Registration
     {
         services.AddSingleton<IBusinessLogicOperationFailureFactory, BusinessLogicOperationFailureFactory>();
         services.AddSingleton<IAuthOperationFailureFactory, AuthOperationFailureFactory>();
+        services.AddTransient<IValidationService<AuthRequestDto>, AuthRequestValidation>();
         return services;
     }
 }

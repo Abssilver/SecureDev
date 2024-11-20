@@ -11,6 +11,8 @@ public static class ErrorCodes
     public const string AuthenticationInvalidPasswordFailure = "AUTH-3";
     public const string CreateUserFailure = "AUTH-4";
     public const string InvalidSessionTokenFailure = "AUTH-5";
+    public const string AuthenticationWeakPasswordFailure = "AUTH-6";
+    public const string AuthenticationInvalidLengthPasswordFailure = "AUTH-7";
 
     public static readonly Dictionary<string, string> ErrorCodeDescription = new()
     {
@@ -22,6 +24,8 @@ public static class ErrorCodes
         { AuthenticationNotFoundUserFailure, "User is not exist" },
         { AuthenticationInvalidPasswordFailure, "Provided password is invalid" },
         { CreateUserFailure, "User with the same username is already exist" },
-        { InvalidSessionTokenFailure, "Provided session token is invalid" }
+        { InvalidSessionTokenFailure, "Provided session token is invalid" },
+        { AuthenticationWeakPasswordFailure, "Password is weak. Use numbers, lowercase and uppercase letters" },
+        { AuthenticationInvalidLengthPasswordFailure, "Password size is invalid. Required length is between 5 and 20" },
     };
 }
