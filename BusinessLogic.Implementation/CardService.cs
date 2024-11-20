@@ -31,19 +31,17 @@ public class CardService: ICardService
 
     public async Task<IOperationResult<IEnumerable<CardDto>>> GetByClientIdAsync(int id)
     {
-        try
-        {
-            var cards = await _repository.GetByClientId(id);
-            var result = _mapper.Map<IEnumerable<CardEntity>, IEnumerable<CardDto>>(cards)
-                .ToList();
-            return new OperationResult<IEnumerable<CardDto>>(result, ArraySegment<IOperationFailure>.Empty);
-        }
-        catch (Exception ex)
+        if (id < 0)
         {
             var failure = _failureFactory.CreateCardsGettingFailure();
-            _logger.LogError(ex, failure.Description);
+            _logger.LogError(failure.Description);
             return new OperationResult<IEnumerable<CardDto>>(ArraySegment<CardDto>.Empty, failure);
         }
+
+        var cards = await _repository.GetByClientId(id);
+        var result = _mapper.Map<IEnumerable<CardEntity>, IEnumerable<CardDto>>(cards)
+            .ToList();
+        return new OperationResult<IEnumerable<CardDto>>(result, ArraySegment<IOperationFailure>.Empty);
     }
 
     public async Task<IOperationResult<Guid>> CreateAsync(CardDto dto)

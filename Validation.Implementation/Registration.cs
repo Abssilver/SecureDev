@@ -1,4 +1,5 @@
 using Authentication.Abstractions.Dto;
+using BusinessLogic.Abstractions.Dto;
 using Microsoft.Extensions.DependencyInjection;
 using Validation.Abstractions;
 using Validation.Implementation.Authentication;
@@ -15,6 +16,7 @@ public static class Registration
         
         services.AddTransient<IValidationService<AuthRequestDto>, AuthRequestValidation>();
         services.AddTransient<IValidationService<CreateAccountDto>, CreateAccountValidation>();
+        services.AddTransient<IValidationService<CardDto>, CardServiceValidation>();
         return services;
     }
 }
