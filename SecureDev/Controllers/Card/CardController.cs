@@ -1,4 +1,4 @@
-using System.Globalization;
+using AutoMapper;
 using BusinessLogic.Abstractions;
 using BusinessLogic.Abstractions.Dto;
 using Microsoft.AspNetCore.Authorization;
@@ -12,24 +12,19 @@ namespace SecureDev.Controllers.Card;
 public class CardController : ControllerBase
 {
     private readonly ICardService _service;
+    private readonly IMapper _mapper;
 
-    public CardController(ICardService service)
+    public CardController(ICardService service, IMapper mapper)
     {
         _service = service;
+        _mapper = mapper;
     }
 
     [HttpPost("create")]
     [ProducesResponseType(typeof(CreateCardResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> Create([FromBody] CreateCardRequest request)
     {
-        var result = await _service.CreateAsync(new CardDto
-        {
-            CardNumber = request.CardNumber,
-            Name = request.Name,
-            CVV2 = request.CVV2,
-            ExpDate = request.ExpDate.ToString(CultureInfo.InvariantCulture),
-        });
-
+        var result = await _service.CreateAsync(_mapper.Map<CardDto>(request));
         return Ok(new CreateCardResponse(result.Result.ToString(), result.Failures));
     }
 
