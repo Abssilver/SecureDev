@@ -12,7 +12,9 @@ public static class Registration
     {
         services.AddSingleton<IBusinessLogicOperationFailureFactory, BusinessLogicOperationFailureFactory>();
         services.AddSingleton<IAuthOperationFailureFactory, AuthOperationFailureFactory>();
+        
         services.AddTransient<IValidationService<AuthRequestDto>, AuthRequestValidation>();
+        services.AddTransient<IValidationService<CreateAccountDto>, CreateAccountValidation>();
         return services;
     }
 }

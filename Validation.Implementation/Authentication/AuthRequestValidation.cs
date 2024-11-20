@@ -21,13 +21,9 @@ public class AuthRequestValidation: ValidationWrapper<AuthRequestDto>
             .Matches(@"\d")
             .Matches(@"[a-z]")
             .Matches(@"[A-Z]")
-            .WithMessage(ErrorCodes.ErrorCodeDescription[ErrorCodes.AuthenticationWeakPasswordFailure])
-            .WithErrorCode(ErrorCodes.AuthenticationWeakPasswordFailure);
-        
-        RuleFor(x => x.Password)
             .MinimumLength(5)
             .MaximumLength(20)
-            .WithMessage(ErrorCodes.ErrorCodeDescription[ErrorCodes.AuthenticationInvalidLengthPasswordFailure])
-            .WithErrorCode(ErrorCodes.AuthenticationInvalidLengthPasswordFailure);
+            .WithMessage(ErrorCodes.ErrorCodeDescription[ErrorCodes.AuthenticationWeakPasswordFailure])
+            .WithErrorCode(ErrorCodes.AuthenticationWeakPasswordFailure);
     }
 }
