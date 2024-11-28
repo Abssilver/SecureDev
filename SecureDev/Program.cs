@@ -1,6 +1,7 @@
 using Authentication.Implementation;
 using BusinessLogic.Implementation;
 using DAL.Implementation;
+using GRPCServices;
 using Microsoft.AspNetCore.HttpLogging;
 using NLog.Web;
 using SecureDev.MapSettings;
@@ -10,10 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.AuthenticationOptions());
+builder.Services.RegisterGrpc(builder.WebHost);
 
 ConfigureLogging(builder);
 ConfigureMapping(builder.Services);
@@ -41,7 +43,8 @@ app.UseCors(policy => policy
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+//app.MapControllers();
+app.MapGrpcServices();
 
 app.Run();
 

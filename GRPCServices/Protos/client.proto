@@ -1,0 +1,31 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+option csharp_namespace = "GRPCServices.Proto";
+
+package ClientServiceProto;
+
+service ClientService
+{
+	rpc Create (CreateClientRequest) returns (CreateClientResponse);
+}
+
+message CreateClientRequest
+{
+    google.protobuf.StringValue Surname = 1;
+    google.protobuf.StringValue FirstName = 2;
+    google.protobuf.StringValue Patronymic = 3;
+}
+
+message OperationResult
+{
+    string PropertyName = 1;
+    string ErrorCode = 2;
+    string ErrorMessage = 3;
+}
+
+message CreateClientResponse
+{
+    int32 ClientId =  1;
+    repeated OperationResult Failures = 2;
+}
+

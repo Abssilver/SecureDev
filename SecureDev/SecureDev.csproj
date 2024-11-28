@@ -22,6 +22,7 @@
       <ProjectReference Include="..\Authentication.Implementation\Authentication.Implementation.csproj" />
       <ProjectReference Include="..\BusinessLogic.Implementation\BusinessLogic.Implementation.csproj" />
       <ProjectReference Include="..\DAL.Implementation\DAL.Implementation.csproj" />
+      <ProjectReference Include="..\GRPCServices\GRPCServices.csproj" />
       <ProjectReference Include="..\Validation.Implementation\Validation.Implementation.csproj" />
     </ItemGroup>
 
